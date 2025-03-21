@@ -48,20 +48,12 @@
                     <input type="password" name="password" class="form-control" placeholder="Password">
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
-                <div class="row">
-                    <!-- <div class="col-xs-8">
-                        <div class="checkbox icheck">
-                            <label>
-                                <input type="checkbox"> Remember Me
-                            </label>
-                        </div>
-                    </div> -->
-                    <!-- /.col -->
+                <div class="row" style="display: flex; justify-content: center;">
                     <div class="col-xs-4">
-                        <button type="submit" class="btn btn-success btn-block btn-flat">Masuk</button>
+                        <button type="submit" class="btn btn-success btn-flat" style="width: 100%;">Masuk</button>
                     </div>
-                    <!-- /.col -->
                 </div>
+
             </form>
 
         </div>
@@ -70,7 +62,7 @@
     <!-- /.login-box -->
 
     <!-- jQuery 3 -->
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src=" bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap 3.3.7 -->
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- iCheck -->

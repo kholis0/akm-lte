@@ -22,7 +22,7 @@
                 <div class="inner">
                     <h3><?=$jml_pegawai?></h3>
 
-                    <p>New Orders</p>
+                    <p>Pemasukan Bulan Ini</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>
@@ -35,9 +35,9 @@
             <!-- small box -->
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3>53<sup style="font-size: 20px">%</sup></h3>
+                    <h3><?=$jml_jabatan?><sup style="font-size: 20px">%</sup></h3>
 
-                    <p>Bounce Rate</p>
+                    <p>Pengeluaran Bulan Ini</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
@@ -52,7 +52,7 @@
                 <div class="inner">
                     <h3>44</h3>
 
-                    <p>User Registrations</p>
+                    <p>Saldo</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
