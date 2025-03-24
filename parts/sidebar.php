@@ -9,7 +9,7 @@
                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p style="margin: 0;">Alexander Pierce</p>
+                <p style="margin: 0;"><?=$_SESSION['nama']?></p>
                 <!-- Status -->
                 <!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
             </div>
@@ -33,8 +33,9 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">HEADER</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="#"> Transaksi</a></li>
-            <li><a href="#"> Laporan</a></li>
+            <li class="active"><a href="?hal=dashboard"> Dashboard</a></li>
+            <li><a href="?hal=transaksi"> Transaksi</a></li>
+            <li><a href="?hal=laporan"> Laporan</a></li>
             <li class="treeview">
                 <a href="#"> Pengaturan
                     <span class="pull-right-container">
@@ -42,11 +43,11 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="#">Pengguna</a></li>
-                    <li><a href="#">Masjid</a></li>
+                    <li style="padding-left: 20px;"><a href="?hal=pengguna">Pengguna</a></li>
+                    <li style="padding-left: 20px;"><a href="?hal=masjid">Masjid</a></li>
                 </ul>
             </li>
-            <li><a href="#"> Keluar</a></li>
+            <li><a href="logout.php"> Keluar</a></li>
         </ul>
         <!-- /.sidebar-menu -->
     </section>

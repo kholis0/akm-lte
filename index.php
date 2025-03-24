@@ -48,7 +48,7 @@ desired effect
     <div class="wrapper">
 
         <!-- Main Header -->
-        <?php include "parts/header.php"?>
+        <?php include "parts/navbar/header.php"?>
 
         <!-- Left side column. contains the logo and sidebar -->
         <?php include "parts/sidebar.php"?>
