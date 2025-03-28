@@ -9,6 +9,9 @@
      Both of these plugins are recommended to enhance the
      user experience. -->
 
+
+<!-- Select2 -->
+<script src="bower_components/select2/dist/js/select2.full.min.js"></script>
 <!-- DataTables -->
 <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
@@ -23,5 +26,8 @@ $(function() {
         'info': true,
         'autoWidth': true
     })
+
+    //Initialize Select2 Elements
+    $('.select2').select2()
 })
 </script>

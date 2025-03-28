@@ -3,6 +3,7 @@
     ob_start();
 
     include "library/config.php";
+    include "library/functions.php";
 
     if(empty($_SESSION['username']) OR empty($_SESSION['password'])) {
         // echo "<p align='center'>Anda harus login terlebih dahulu!</p>";

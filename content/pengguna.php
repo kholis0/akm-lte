@@ -1,18 +1,20 @@
 <?php
     if(!defined('INDEX')) die("");
 
-    $pemasukan =  mysqli_fetch_assoc(mysqli_query($con, "SELECT SUM(nominal) as data FROM transaksi WHERE nominal > 0 AND (SELECT EXTRACT(MONTH FROM tanggal) = ( SELECT EXTRACT(MONTH FROM (SELECT CURDATE())))) "));
-    $pengeluaran =  mysqli_fetch_assoc(mysqli_query($con, "SELECT SUM(nominal) as data FROM transaksi WHERE nominal < 0 AND (SELECT EXTRACT(MONTH FROM tanggal) = ( SELECT EXTRACT(MONTH FROM (SELECT CURDATE()))))"));
-    $saldo =  mysqli_fetch_assoc(mysqli_query($con, "SELECT SUM(nominal) as data FROM transaksi WHERE  (SELECT EXTRACT(MONTH FROM tanggal) = ( SELECT EXTRACT(MONTH FROM (SELECT CURDATE()))))"));
+    // $pemasukan =  mysqli_fetch_assoc(mysqli_query($con, "SELECT SUM(nominal) as data FROM transaksi WHERE nominal > 0 AND (SELECT EXTRACT(MONTH FROM tanggal) = ( SELECT EXTRACT(MONTH FROM (SELECT CURDATE())))) "));
+    // $pengeluaran =  mysqli_fetch_assoc(mysqli_query($con, "SELECT SUM(nominal) as data FROM transaksi WHERE nominal < 0 AND (SELECT EXTRACT(MONTH FROM tanggal) = ( SELECT EXTRACT(MONTH FROM (SELECT CURDATE()))))"));
+    // $saldo =  mysqli_fetch_assoc(mysqli_query($con, "SELECT SUM(nominal) as data FROM transaksi WHERE  (SELECT EXTRACT(MONTH FROM tanggal) = ( SELECT EXTRACT(MONTH FROM (SELECT CURDATE()))))"));
     
 ?>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Pengguna
+        Data Pengguna
     </h1>
+    <a class="btn btn-success" style="margin-top: 10px;" href="?hal=pengguna-tambah">Tambah</a>
 </section>
+
 
 <!-- Main content -->
 <section class="content container-fluid">
@@ -33,15 +35,14 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama</th>
-                                <th>Tanggal</th>
-                                <th>Nominal</th>
-                                <th>Kategori</th>
-                                <th>Keterangan</th>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-        $query = "SELECT * FROM transaksi";
+        $query = "SELECT * FROM pengguna ORDER BY id_pengguna DESC";
         $result = mysqli_query($con, $query);
         $no = 0;
         
@@ -52,10 +53,14 @@
                                 <td><?=$no?></td>
                                 <td><?=$data['nama']?>
                                 </td>
-                                <td><?=$data['tanggal']?></td>
-                                <td><?=$data['nominal']?></td>
-                                <td><?=$data['kategori']?></td>
-                                <td><?=$data['keterangan']?></td>
+                                <td><?=$data['username']?></td>
+                                <td><?=$data['role']?></td>
+                                <td>
+                                    <a href="?hal=pengguna-edit&id=<?= $data['id_pengguna'] ?>"
+                                        class="btn btn-sm btn-warning">Edit</a>
+                                    <a href="?hal=pengguna-hapus&id=<?= $data['id_pengguna'] ?>"
+                                        class="btn btn-sm btn-danger">Hapus</a>
+                                </td>
                             </tr>
                             <?php
         }
