@@ -86,7 +86,8 @@ function generatePDF($data, $tahun, $bulan) {
             $pdf->Cell(40, 6, $row['nama'], 1);
             $pdf->Cell(40, 6, $row['kategori'], 1);
             $pdf->Cell(30, 6, rupiah($row['nominal']), 1);
-            $pdf->Cell(40, 6, $row['rincian'], 1);        
+            // Menggunakan html_entity_decode untuk memastikan karakter khusus ditampilkan dengan benar
+            $pdf->Cell(40, 6, html_entity_decode($row['rincian']), 1);        
             $pdf->Ln();
             $y += 6;
         }
@@ -135,7 +136,7 @@ function generatePDF($data, $tahun, $bulan) {
                         </div>
                     </div>
                     <div class="col-md-6" style="margin-top:25px">
-                        <button type="submit" class="btn btn-primary">Filter</button>
+                        <button type="submit" class="btn btn-primary">Cek Transaksi</button>
                         <?php if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
                         <a href="?hal=laporan&cetak=pdf&tahun=<?=$tahun?>&bulan=<?=$bulan?>"
                             class="btn btn-success">Cetak PDF</a>
@@ -144,7 +145,7 @@ function generatePDF($data, $tahun, $bulan) {
                 </div>
             </form>
 
-            <table class="table table-bordered">
+            <table id="example2" class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>No</th>

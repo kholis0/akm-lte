@@ -132,7 +132,8 @@ if ($result) {
                                 <input type="file" name="logo" id="logo" class="form-control">
                             </div>
                         </div>
-                        <div class="box-footer">
+
+                        <div class="box-default">
                             <div class="form-group row">
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-6">

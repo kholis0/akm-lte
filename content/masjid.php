@@ -132,8 +132,15 @@ if ($result) {
                             </div>
                         </div>
                         <div class="box-default">
-                            <a href="?hal=masjid-edit" class="btn btn-warning">Edit</a>
+                            <div class="form-group row">
+                                <!-- Label kosong untuk menyelaraskan tombol -->
+                                <label class="col-sm-3 control-label"></label>
+                                <div class="col-sm-6">
+                                    <a href="?hal=masjid-edit" class="btn btn-warning">Edit</a>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>

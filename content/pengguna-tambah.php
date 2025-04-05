@@ -19,7 +19,7 @@ if(!defined("INDEX")) die("");
         <div class="box-body">
             <div class="row">
                 <div class="col-md-6">
-                    <form action="?hal=pengguna-insert" method="POST">
+                    <form action="?hal=pengguna-insert" method="POST" enctype="multipart/form-data">
                         <div class="box-body">
                             <div class="form-group row" style="display: flex; align-items: center;">
                                 <label for="nama" class="col-sm-2 col-form-label">Nama</label>
@@ -50,11 +50,14 @@ if(!defined("INDEX")) die("");
                                     </select>
                                 </div>
                             </div>
-                            <!-- <div class="checkbox">
-                                <label>
-                                    <input type="checkbox"> Check me out
-                                </label>
-                            </div> -->
+
+                            <div class="form-group row" style="display: flex; align-items: center;">
+                                <label for="foto_profil" class="col-sm-2 col-form-label">Profil</label>
+                                <div class="col-sm-6">
+                                    <input type="file" name="foto_profil" id="foto_profil" class="form-control"
+                                        required>
+                                </div>
+                            </div>
                         </div>
                         <!-- /.box-body -->
 

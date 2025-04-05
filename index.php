@@ -1,15 +1,30 @@
 <?php
+    // session_start();
+    // ob_start();
+
+    // include "library/config.php";
+    // include "library/functions.php";
+
+    // if(empty($_SESSION['username']) OR empty($_SESSION['password'])) {
+    //     // echo "<p align='center'>Anda harus login terlebih dahulu!</p>";
+    //     echo "<meta http-equiv='refresh' content='0; url=login.php'>";
+    // } else {
+    //     define("INDEX", true);
+
+    
     session_start();
-    ob_start();
+    ob_start(); // Memastikan tidak ada output sebelum header
 
     include "library/config.php";
     include "library/functions.php";
 
-    if(empty($_SESSION['username']) OR empty($_SESSION['password'])) {
-        // echo "<p align='center'>Anda harus login terlebih dahulu!</p>";
-        echo "<meta http-equiv='refresh' content='0; url=login.php'>";
+    // Periksa apakah session sudah diset
+    if (empty($_SESSION['username'])) {
+        header('location: login.php'); // Redirect ke halaman login jika belum login
+        exit();
     } else {
         define("INDEX", true);
+    }
     
 ?>
 
@@ -73,7 +88,3 @@ desired effect
     </bdy>
 
 </html>
-
-<?php
-}
-?>

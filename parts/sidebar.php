@@ -1,3 +1,7 @@
+<?php
+    $current_page = isset($_GET['hal']) ? $_GET['hal'] : 'dashboard';
+?>
+
 <aside class="main-sidebar">
 
     <!-- sidebar: style can be found in sidebar.less -->
@@ -6,7 +10,8 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel" style="display: flex; align-items: center;">
             <div class="pull-left image" style="margin-right: 10px;">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="<?= !empty($_SESSION['foto_profil']) ? $_SESSION['foto_profil'] : 'dist/img/default.jpg' ?>"
+                    class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
                 <p style="margin: 0;"><?=$_SESSION['nama']?></p>
@@ -31,20 +36,26 @@
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
-            <li class="header">HEADER</li>
+            <!-- <li class="header">HEADER</li> -->
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="?hal=dashboard"> Dashboard</a></li>
-            <li><a href="?hal=transaksi"> Transaksi</a></li>
-            <li><a href="?hal=laporan"> Laporan</a></li>
-            <li class="treeview">
+            <li class="<?php if ($current_page == 'dashboard') echo 'active'; ?>"><a href="?hal=dashboard">
+                    Dashboard</a>
+            </li>
+            <li class="<?php if ($current_page == 'transaksi') echo 'active'; ?>"><a href=" ?hal=transaksi">
+                    Transaksi</a></li>
+            <li class="<?php if ($current_page == 'laporan') echo 'active'; ?>"><a href="?hal=laporan"> Laporan</a>
+            </li>
+            <li class="treeview <?php if ($current_page == 'pengguna' || $current_page == 'masjid') echo 'active'; ?>">
                 <a href="#"> Pengaturan
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li style="padding-left: 20px;"><a href="?hal=pengguna">Pengguna</a></li>
-                    <li style="padding-left: 20px;"><a href="?hal=masjid">Masjid</a></li>
+                    <li style="padding-left: 20px;" class="<?php if ($current_page == 'pengguna') echo 'active'; ?>"><a
+                            href="?hal=pengguna">Pengguna</a></li>
+                    <li style="padding-left: 20px;" class="<?php if ($current_page == 'masjid') echo 'active'; ?>"><a
+                            href="?hal=masjid">Masjid</a></li>
                 </ul>
             </li>
             <li><a href="logout.php"> Keluar</a></li>

@@ -1,13 +1,31 @@
 <?php
 if (!defined("INDEX")) die("Akses langsung tidak diizinkan.");
 
-$id = $_GET['id'];
-$query = "DELETE FROM pengguna WHERE id_pengguna = ?";
+// Ambil ID pengguna dari parameter GET
+$id = intval($_GET['id']); // Mengubah ID menjadi integer untuk keamanan
+
+// Ambil informasi pengguna termasuk foto profil sebelum menghapus data
+$query = "SELECT foto_profil FROM pengguna WHERE id_pengguna = ?";
 $stmt = mysqli_prepare($con, $query);
 mysqli_stmt_bind_param($stmt, "i", $id);
-$result = mysqli_stmt_execute($stmt);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 
-if ($result) { ?>
+if ($row = mysqli_fetch_assoc($result)) {
+    $foto_profil = $row['foto_profil']; // Path foto profil pengguna
+
+    // Hapus pengguna dari database
+    $deleteQuery = "DELETE FROM pengguna WHERE id_pengguna = ?";
+    $deleteStmt = mysqli_prepare($con, $deleteQuery);
+    mysqli_stmt_bind_param($deleteStmt, "i", $id);
+    $deleteResult = mysqli_stmt_execute($deleteStmt);
+
+    if ($deleteResult) {
+        // Hapus file foto profil jika ada
+        if (!empty($foto_profil) && file_exists($foto_profil)) {
+            unlink($foto_profil); // Menghapus file dari server
+        }
+        ?>
 <script>
 function showNotif(message, type) {
     const notifDiv = document.createElement('div');
@@ -28,15 +46,17 @@ function showNotif(message, type) {
 
     setTimeout(() => {
         notifDiv.remove();
-        window.location.href = '?hal=pengguna';
+        window.location.href = '?hal=pengguna'; // Redirect setelah notifikasi
     }, 3000);
 }
 
 showNotif('Data berhasil dihapus!', 'success');
 </script>
 <?php
+    } else {
+        echo "Tidak dapat menghapus data!<br>" . mysqli_error($con);
+    }
 } else {
-    echo "Tidak dapat menghapus data!<br>";
-    echo mysqli_error($con);
+    echo "Pengguna tidak ditemukan.";
 }
 ?>
