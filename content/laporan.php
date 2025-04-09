@@ -21,15 +21,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     rincian
               FROM transaksi 
               WHERE YEAR(tanggal) = ? AND MONTH(tanggal) = ?";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param('ii', $tahun, $bulan);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt = mysqli_prepare($con, $query);
+    mysqli_stmt_bind_param($stmt, 'ii', $tahun, $bulan);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 
     $dataTransaksi = [];
-    while ($row = $result->fetch_assoc()) {
+    while ($row = mysqli_fetch_assoc($result)) {
         $dataTransaksi[] = $row;
     }
+    mysqli_stmt_close($stmt); // Tutup statement
 }
 
 // Fungsi untuk menghasilkan PDF
@@ -65,7 +66,7 @@ function generatePDF($data, $tahun, $bulan) {
     $pdf->SetFont('Arial', 'B', 12);
     
     // Style tabel
-    $pdf->SetXY(10, 40); 
+    $pdf->SetXY(10, 30); // Ubah nilai Y menjadi 30
     $pdf->Cell(10, 7, 'No',1,0,'C');
     $pdf->Cell(30, 7, 'Tanggal',1,0,'C');
     $pdf->Cell(40, 7, 'Nama',1,0,'C');
@@ -76,21 +77,34 @@ function generatePDF($data, $tahun, $bulan) {
 
     // Data tabel
     $pdf->SetFont('Arial', '', 10);
+    $totalNominal = 0; // Variabel untuk menyimpan total nominal
+
     if (count($data) > 0) {
-        $y = 47;
+        $y = 37; // Ubah nilai Y menjadi 37
         $no = 1;
         foreach ($data as $row) {
             $pdf->SetXY(10, $y);
-            $pdf->Cell(10, 6, $no++, 1, 0, 'C');
-            $pdf->Cell(30, 6, $row['tanggal'], 1);
-            $pdf->Cell(40, 6, $row['nama'], 1);
-            $pdf->Cell(40, 6, $row['kategori'], 1);
-            $pdf->Cell(30, 6, rupiah($row['nominal']), 1);
+            $pdf->Cell(10, 6, $no++, 1, 0, 'C'); // Alignment center
+            $pdf->Cell(30, 6, $row['tanggal'], 1, 0, 'C');
+            $pdf->Cell(40, 6, $row['nama'], 1, 0, 'C');
+            $pdf->Cell(40, 6, $row['kategori'], 1, 0, 'C');
+            $pdf->Cell(30, 6, rupiah($row['nominal']), 1, 0, 'C');
             // Menggunakan html_entity_decode untuk memastikan karakter khusus ditampilkan dengan benar
-            $pdf->Cell(40, 6, html_entity_decode($row['rincian']), 1);        
+            $pdf->Cell(40, 6, html_entity_decode($row['rincian']), 1, 0, 'C');        
             $pdf->Ln();
             $y += 6;
+
+            // Tambahkan nominal ke total
+            $totalNominal += $row['nominal'];
         }
+
+        // Tambahkan baris total di bawah tabel
+        $pdf->SetXY(10, $y);
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->Cell(120, 6, 'Total', 1, 0, 'C');
+        $pdf->Cell(30, 6, rupiah($totalNominal), 1, 0, 'C');
+        $pdf->Cell(40, 6, '', 1, 0, 'C');
+        
     }else{
         $pdf->SetFont('Arial', 'I', 10);
         $pdf->SetXY(10, 47);
@@ -100,6 +114,7 @@ function generatePDF($data, $tahun, $bulan) {
     ob_clean();
     return @$pdf->Output('D', 'laporan_transaksi.pdf');
 }
+
 ?>
 
 <section class="content">
@@ -128,14 +143,30 @@ function generatePDF($data, $tahun, $bulan) {
                             <select class="form-control" name="bulan" id="bulanSelect">
                                 <option value="">Pilih Bulan</option>
                                 <?php 
-                        for ($m=1; $m<=12; $m++): ?>
+                                $namaBulan = array(
+                                    1 => 'Januari',
+                                    2 => 'Februari',
+                                    3 => 'Maret',
+                                    4 => 'April',
+                                    5 => 'Mei',
+                                    6 => 'Juni',
+                                    7 => 'Juli',
+                                    8 => 'Agustus',
+                                    9 => 'September',
+                                    10 => 'Oktober',
+                                    11 => 'November',
+                                    12 => 'Desember'
+                                );
+                                for ($m=1; $m<=12; $m++): ?>
                                 <option value="<?=$m?>" <?=($m==$bulan)?'selected':''?>>
-                                    <?=date("F", mktime(0, 0, 0, $m))?></option>
+                                    <?=$namaBulan[$m]?>
+                                </option>
                                 <?php endfor; ?>
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6" style="margin-top:25px">
+
+                    <div class="col-md-6" style="margin-top:25px; margin-bottom: 20px;">
                         <button type="submit" class="btn btn-primary">Cek Transaksi</button>
                         <?php if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
                         <a href="?hal=laporan&cetak=pdf&tahun=<?=$tahun?>&bulan=<?=$bulan?>"
@@ -145,36 +176,38 @@ function generatePDF($data, $tahun, $bulan) {
                 </div>
             </form>
 
-            <table id="example2" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Tanggal</th>
-                        <th>Nama</th>
-                        <th>Kategori</th>
-                        <th>Nominal</th>
-                        <th>Rincian</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($dataTransaksi)): ?>
-                    <?php foreach ($dataTransaksi as $index => $row): ?>
-                    <tr>
-                        <td><?= ($index + 1) ?></td>
-                        <td><?= $row['tanggal'] ?></td>
-                        <td><?= $row['nama'] ?></td>
-                        <td><?= $row['kategori'] ?></td>
-                        <td><?= rupiah($row['nominal'])?></td>
-                        <td><?= $row['rincian'] ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                    <?php else: ?>
-                    <tr>
-                        <td colspan="6">Tidak ada data</td>
-                    </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table id="example2" class="table table-bordered table-striped" style="border-color: #ddd;">
+                    <thead>
+                        <tr style="background: #2c3e50; color: white;">
+                            <th style="border-color: #ddd;">No</th>
+                            <th style="border-color: #ddd;">Tanggal</th>
+                            <th style="border-color: #ddd;">Nama</th>
+                            <th style="border-color: #ddd;">Kategori</th>
+                            <th style="border-color: #ddd;">Nominal</th>
+                            <th style="border-color: #ddd;">Rincian</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($dataTransaksi)): ?>
+                        <?php foreach ($dataTransaksi as $index => $row): ?>
+                        <tr>
+                            <td style="border-color: #ddd;"><?= ($index + 1) ?></td>
+                            <td style="border-color: #ddd;"><?= $row['tanggal'] ?></td>
+                            <td style="border-color: #ddd;"><?= $row['nama'] ?></td>
+                            <td style="border-color: #ddd;"><?= $row['kategori'] ?></td>
+                            <td style="border-color: #ddd;"><?= rupiah($row['nominal'])?></td>
+                            <td style="border-color: #ddd;"><?= $row['rincian'] ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                        <?php else: ?>
+                        <tr>
+                            <td colspan="6">Tidak ada data</td>
+                        </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </section>
@@ -196,17 +229,18 @@ if (isset($_GET['cetak']) && $_GET['cetak'] === 'pdf') {
                     rincian
               FROM transaksi 
               WHERE YEAR(tanggal) = ? AND MONTH(tanggal) = ?";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param('ii', $tahun, $bulan);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt = mysqli_prepare($con, $query);
+    mysqli_stmt_bind_param($stmt, 'ii', $tahun, $bulan);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 
     $dataTransaksi = [];
-    while ($row = $result->fetch_assoc()) {
+    while ($row = mysqli_fetch_assoc($result)) {
         $dataTransaksi[] = $row;
     }
     
     generatePDF($dataTransaksi, $tahun, $bulan);
+    mysqli_stmt_close($stmt); // Tutup statement
 }
 ?>
 

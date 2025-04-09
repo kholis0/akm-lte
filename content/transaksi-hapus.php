@@ -1,17 +1,21 @@
 <?php
 if (!defined("INDEX")) die("");
 
-$nama = htmlspecialchars($_POST['nama']);
-$tanggal = htmlspecialchars($_POST['tanggal']);
-$kategori = htmlspecialchars($_POST['kategori']);
-$nominal = htmlspecialchars($_POST['nominal']);
-$rincian = htmlspecialchars($_POST['rincian']);
-$timestamp = date('Y-m-d H:i:s');
+// Pastikan metode GET digunakan
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    // Ambil ID transaksi dari URL
+    $id = isset($_GET['id']) ? htmlspecialchars($_GET['id']) : '';
 
-$query = "INSERT INTO transaksi (nama, tanggal, kategori, nominal, rincian, timestamp) VALUES ('$nama', '$tanggal', '$kategori', '$nominal', '$rincian', '$timestamp')";
-$result = mysqli_query($con, $query);
+    // Pastikan ID tidak kosong
+    if (!empty($id)) {
+        // Hapus data transaksi dari database
+        $query = "DELETE FROM transaksi WHERE id_transaksi = ?";
+        $stmt = mysqli_prepare($con, $query);
+        mysqli_stmt_bind_param($stmt, "i", $id);
 
-if ($result) { ?>
+        if (mysqli_stmt_execute($stmt)) {
+            // Jika berhasil, tampilkan notifikasi dan redirect ke halaman transaksi
+            ?>
 <script>
 function showNotif(message, type) {
     const notifDiv = document.createElement('div');
@@ -39,12 +43,18 @@ function showNotif(message, type) {
 }
 
 // Contoh pemanggilan fungsi notifikasi
-showNotif('Data berhasil ditambah!', 'success');
+showNotif('Data berhasil dihapus!', 'success');
 </script>
 
 <?php
+        } else {
+            echo "Tidak dapat menghapus data!<br>";
+            echo mysqli_error($con);
+        }
     } else {
-        echo "Tidak dapat menambah data!<br>";
-        echo mysqli_error($con);
+        echo "ID tidak valid!";
     }
-    ?>
+} else {
+    echo "Akses tidak sah!";
+}
+?>

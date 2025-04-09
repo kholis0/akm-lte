@@ -1,17 +1,24 @@
 <?php
 if (!defined("INDEX")) die("");
 
-$nama = htmlspecialchars($_POST['nama']);
-$tanggal = htmlspecialchars($_POST['tanggal']);
-$kategori = htmlspecialchars($_POST['kategori']);
-$nominal = htmlspecialchars($_POST['nominal']);
-$rincian = htmlspecialchars($_POST['rincian']);
-$timestamp = date('Y-m-d H:i:s');
+// Pastikan metode POST digunakan
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Ambil data dari form
+    $id = htmlspecialchars($_POST['id']);
+    $tanggal = htmlspecialchars($_POST['tanggal']);
+    $nama = htmlspecialchars($_POST['nama']);
+    $kategori = htmlspecialchars($_POST['kategori']);
+    $nominal = htmlspecialchars($_POST['nominal']);
+    $rincian = htmlspecialchars($_POST['rincian']);
 
-$query = "INSERT INTO transaksi (nama, tanggal, kategori, nominal, rincian, timestamp) VALUES ('$nama', '$tanggal', '$kategori', '$nominal', '$rincian', '$timestamp')";
-$result = mysqli_query($con, $query);
+    // Update data transaksi di database
+    $query = "UPDATE transaksi SET tanggal = ?, nama = ?, kategori = ?, nominal = ?, rincian = ? WHERE id_transaksi = ?";
+    $stmt = mysqli_prepare($con, $query);
+    mysqli_stmt_bind_param($stmt, "sssdsi", $tanggal, $nama, $kategori, $nominal, $rincian, $id);
 
-if ($result) { ?>
+    if (mysqli_stmt_execute($stmt)) {
+        // Jika berhasil, tampilkan notifikasi
+        ?>
 <script>
 function showNotif(message, type) {
     const notifDiv = document.createElement('div');
@@ -39,12 +46,15 @@ function showNotif(message, type) {
 }
 
 // Contoh pemanggilan fungsi notifikasi
-showNotif('Data berhasil ditambah!', 'success');
+showNotif('Data berhasil diperbarui!', 'success');
 </script>
 
 <?php
     } else {
-        echo "Tidak dapat menambah data!<br>";
+        echo "Tidak dapat memperbarui data!<br>";
         echo mysqli_error($con);
     }
-    ?>
+} else {
+    echo "Akses tidak sah!";
+}
+?>

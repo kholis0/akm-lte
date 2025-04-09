@@ -45,19 +45,26 @@
                     Transaksi</a></li>
             <li class="<?php if ($current_page == 'laporan') echo 'active'; ?>"><a href="?hal=laporan"> Laporan</a>
             </li>
-            <li class="treeview <?php if ($current_page == 'pengguna' || $current_page == 'masjid') echo 'active'; ?>">
-                <a href="#"> Pengaturan
+
+            <?php if ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'owner'): ?>
+            <li class="treeview <?php if ($current_page == 'masjid' || $current_page == 'pengguna') echo 'active'; ?>">
+                <a href="#">Pengaturan
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li style="padding-left: 20px;" class="<?php if ($current_page == 'pengguna') echo 'active'; ?>"><a
-                            href="?hal=pengguna">Pengguna</a></li>
-                    <li style="padding-left: 20px;" class="<?php if ($current_page == 'masjid') echo 'active'; ?>"><a
-                            href="?hal=masjid">Masjid</a></li>
+                    <li style="padding-left: 20px;" class="<?php if ($current_page == 'masjid') echo 'active'; ?>">
+                        <a href="?hal=masjid">Masjid</a>
+                    </li>
+                    <?php if ($_SESSION['role'] === 'owner'): ?>
+                    <li style="padding-left: 20px;" class="<?php if ($current_page == 'pengguna') echo 'active'; ?>">
+                        <a href="?hal=pengguna">Pengguna</a>
+                    </li>
+                    <?php endif; ?>
                 </ul>
             </li>
+            <?php endif; ?>
             <li><a href="logout.php"> Keluar</a></li>
         </ul>
         <!-- /.sidebar-menu -->

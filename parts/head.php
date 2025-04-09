@@ -1,6 +1,43 @@
+<?php
+// Tentukan judul halaman berdasarkan parameter 'hal'
+$page = isset($_GET['hal']) ? $_GET['hal'] : 'dashboard';
+
+switch ($page) {
+    case 'dashboard':
+        $title = "Kas Masjid | Dashboard";
+        break;
+    case 'transaksi':
+    case 'transaksi-tambah':
+    case 'transaksi-insert':
+    case 'transaksi-edit':
+    case 'transaksi-update':
+    case 'transaksi-hapus':
+        $title = "Kas Masjid | Transaksi";
+        break;
+    case 'laporan':
+        $title = "Kas Masjid | Laporan";
+        break;
+    case 'pengguna':
+    case 'pengguna-tambah':
+    case 'pengguna-insert':
+    case 'pengguna-edit':
+    case 'pengguna-update':
+    case 'pengguna-hapus':
+        $title = "Kas Masjid | Pengguna";
+        break;
+    case 'masjid':
+    case 'masjid-edit':
+    case 'masjid-update':
+        $title = "Kas Masjid | Masjid";
+        break;
+    default:
+        $title = "Kas Masjid | Halaman Tidak Ditemukan";
+}
+?>
+
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Kas Masjid</title>
+<title><?= $title ?></title>
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">

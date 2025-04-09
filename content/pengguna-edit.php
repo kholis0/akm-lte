@@ -52,8 +52,8 @@ if (!$data) {
                                 <label for="password" class="col-sm-2 col-form-label">Password</label>
                                 <div class="col-sm-6">
                                     <input type="password" name="password" id="password" class="form-control">
-                                    <small class="form-text text-muted">Kosongkan jika tidak ingin mengubah
-                                        password.</small>
+                                    <!-- <small class="form-text text-muted">Kosongkan jika tidak ingin mengubah
+                                        password.</small> -->
                                 </div>
                             </div>
 

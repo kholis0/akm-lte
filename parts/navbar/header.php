@@ -1,10 +1,6 @@
 <header class="main-header">
-
     <!-- Logo -->
     <a href="index2.html" class="logo">
-        <!-- mini logo for sidebar mini 50x50 pixels -->
-        <!-- <span class="logo-mini"><b>A</b>LT</span> -->
-        <!-- logo for regular state and mobile devices -->
         <span class="logo-lg"><b>Kas</b> Masjid</span>
     </a>
 
@@ -27,59 +23,91 @@
 
                 <!-- User Account Menu -->
                 <li class="dropdown user user-menu">
-                    <!-- Menu Toggle Button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <!-- The user image in the navbar-->
                         <img src="<?= !empty($_SESSION['foto_profil']) ? $_SESSION['foto_profil'] : 'dist/img/default.jpg' ?>"
                             class="user-image" alt="User Image">
-                        <!-- hidden-xs hides the username on small devices so only the image appears. -->
                         <span class="hidden-xs"><?=$_SESSION['nama']?></span>
                     </a>
-                    <ul class="dropdown-menu">
-                        <!-- The user image in the menu -->
-                        <li class="user-header">
-                            <img src="<?= !empty($_SESSION['foto_profil']) ? $_SESSION['foto_profil'] : 'dist/img/default.jpg' ?>"
-                                class="img-circle" alt="User Image">
+                    <ul class="dropdown-menu" style="
+                        background-color: #fff; 
+                        border-radius: 8px; 
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+                        overflow: hidden; 
+                        padding: 20px;
+                        width: 300px;
+                        text-align: center;
+                        position: absolute;
+                        right: 0;
+                        left: auto;">
 
-                            <p>
+                        <!-- User image and info -->
+                        <li style="
+                            margin-bottom: 15px;">
+                            <img src="<?= !empty($_SESSION['foto_profil']) ? $_SESSION['foto_profil'] : 'dist/img/default.jpg' ?>"
+                                alt="User Image" style="
+                                width: 100px; 
+                                height: 100px; 
+                                border-radius: 50%; 
+                                border: 3px solid #ddd;">
+                            <p style="
+                                margin-top: 10px; 
+                                font-size: 18px; 
+                                font-weight: bold; 
+                                color: #333;">
                                 <?=$_SESSION['nama']?>
-                                <!-- <small>Member since Nov. 2012</small> -->
                             </p>
-                            <p>
-                                <?= ucfirst($_SESSION['role'])?> - AKMSH
+                            <p style="
+                                font-size: 14px; 
+                                color: #777;">
+                                <?= ucfirst($_SESSION['role']) ?> - KMSH
                             </p>
                         </li>
-                        <!-- Menu Body -->
-                        <li class="user-body">
-                            <div class="row">
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Followers</a>
-                                </div>
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Sales</a>
-                                </div>
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Friends</a>
-                                </div>
-                            </div>
-                            <!-- /.row -->
-                        </li>
-                        <!-- Menu Footer-->
-                        <li class="user-footer">
-                            <!-- <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
-                            </div> -->
-                            <div class="pull-right">
-                                <a href="logout.php" class="btn btn-default btn-flat">Sign out</a>
-                            </div>
+
+                        <!-- Logout Button -->
+                        <li>
+                            <a href="logout.php" class="btn btn-danger btn-block" style="
+                                border-radius: 5px; 
+                                padding: 10px; 
+                                font-size: 16px;
+                                color: #fff;
+                                background-color: #e74c3c;
+                                border-color: #e74c3c;">
+                                Keluar
+                            </a>
                         </li>
                     </ul>
                 </li>
-                <!-- Control Sidebar Toggle Button -->
-                <!-- <li>
-                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                </li> -->
             </ul>
         </div>
     </nav>
 </header>
+
+<style>
+/* Media query untuk layar kecil */
+@media (max-width: 768px) {
+    .navbar-custom-menu .dropdown-menu {
+        width: auto !important;
+        /* Lebar otomatis */
+        left: auto !important;
+        /* Reset posisi kiri */
+        right: 0 !important;
+        /* Posisi kanan tetap */
+    }
+
+    .navbar-custom-menu .user-header {
+        font-size: 16px !important;
+        /* Ukuran font lebih kecil */
+    }
+
+    .navbar-custom-menu .user-image {
+        width: 100% !important;
+        /* Ukuran gambar lebih kecil */
+        /* height: 70px !important; */
+    }
+
+    .navbar-custom-menu .btn {
+        font-size: 14px !important;
+        /* Ukuran font tombol lebih kecil */
+    }
+}
+</style>

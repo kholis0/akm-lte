@@ -81,11 +81,44 @@ $stmt = mysqli_prepare($con, $query);
 mysqli_stmt_bind_param($stmt, "ssssssssss", $nama, $alamat, $email, $no_telp, $bank, $no_rek, $ketua_takmir, $sekretaris, $bendahara, $logo);
 
 if (mysqli_stmt_execute($stmt)) {
-    echo "Data berhasil diupdate!";
+    // Menampilkan notifikasi sukses
+    echo "<script>showNotif('Data berhasil diupdate!', 'success');</script>";
+    
     // Redirect ke halaman masjid setelah berhasil diupdate
     header("Location: ?hal=masjid");
     exit;
 } else {
-    echo "Error: " . mysqli_error($con);
+    // Menampilkan notifikasi gagal
+    echo "<script>showNotif('Tidak dapat mengupdate data! Error: " . mysqli_error($con) . "', 'error');</script>";
 }
 ?>
+
+<script>
+function showNotif(message, type) {
+    const notifDiv = document.createElement('div');
+    notifDiv.style.position = 'fixed';
+    notifDiv.style.top = '10px'; // Atur posisi top ke 10px dari atas
+    notifDiv.style.left = '50%'; // Pusatkan horizontal
+    notifDiv.style.transform = 'translateX(-50%)'; // Koreksi posisi tengah
+    notifDiv.style.background = type === 'success' ? '#d4edda' : '#f2dede';
+    notifDiv.style.border = type === 'success' ? '1px solid #c3e6cb' : '1px solid #a94442';
+    notifDiv.style.padding = '12px 20px';
+    notifDiv.style.borderRadius = '5px';
+    notifDiv.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
+    notifDiv.style.zIndex = '9999'; // Pastikan z-index sangat tinggi
+    notifDiv.style.fontSize = '16px';
+    notifDiv.style.color = type === 'success' ? '#155724' : '#a94442';
+    notifDiv.textContent = message;
+    notifDiv.style.textAlign = 'center'; // Pusatkan teks
+
+    document.body.appendChild(notifDiv);
+
+    setTimeout(() => {
+        notifDiv.remove();
+        window.location.href = '?hal=masjid'; // Redirect setelah notifikasi
+    }, 3000);
+}
+
+// Contoh pemanggilan fungsi notifikasi
+showNotif('Data berhasil diperbarui!', 'success');
+</script>
