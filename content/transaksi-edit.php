@@ -76,7 +76,7 @@ if (!$data) {
                                 <label for="rincian" class="col-sm-2 col-form-label">Rincian</label>
                                 <div class="col-sm-6">
                                     <textarea name="rincian" id="rincian" class="form-control" rows="3"
-                                        required><?= htmlspecialchars($data['rincian']) ?></textarea>
+                                        required><?= html_entity_decode($data['rincian']) ?></textarea>
                                 </div>
                             </div>
 

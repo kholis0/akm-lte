@@ -21,7 +21,7 @@
     //     echo "<meta http-equiv='refresh' content='2; url=login.php'>";
     // }
 
-    session_start(); // Memulai sesi PHP
+session_start(); // Memulai sesi PHP
 include "library/config.php"; // Mengimpor file konfigurasi database
 
 // Mengambil input dari form login

@@ -26,23 +26,45 @@ if ($row = mysqli_fetch_assoc($result)) {
             unlink($foto_profil); // Menghapus file dari server
         }
         ?>
+<style>
+/* Style untuk notifikasi */
+.notif-div {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 12px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    font-size: 16px;
+    color: #155724;
+    text-align: center;
+}
+
+/* Media query untuk layar kecil (misalnya, lebar kurang dari 768px) */
+@media (max-width: 768px) {
+    .notif-div {
+        top: 110px;
+        /* Sesuaikan posisi top agar tidak menutupi navbar */
+        right: 10px;
+        /* Sesuaikan posisi kanan agar tidak terlalu dekat dengan tepi layar */
+        left: 180px;
+        /* Tambahkan posisi kiri agar notifikasi memiliki lebar yang sesuai */
+        width: auto;
+        /* Biarkan lebar menyesuaikan dengan konten */
+        margin: 0 auto;
+        /* Pusatkan notifikasi horizontal */
+    }
+}
+</style>
 <script>
 function showNotif(message, type) {
     const notifDiv = document.createElement('div');
-    notifDiv.style.position = 'fixed';
-    notifDiv.style.top = '10px'; // Atur posisi top ke 10px dari atas
-    notifDiv.style.left = '50%'; // Pusatkan horizontal
-    notifDiv.style.transform = 'translateX(-50%)'; // Koreksi posisi tengah
-    notifDiv.style.background = type === 'success' ? '#d4edda' : '#f2dede';
-    notifDiv.style.border = type === 'success' ? '1px solid #c3e6cb' : '1px solid #a94442';
-    notifDiv.style.padding = '12px 20px';
-    notifDiv.style.borderRadius = '5px';
-    notifDiv.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
-    notifDiv.style.zIndex = '9999'; // Pastikan z-index sangat tinggi
-    notifDiv.style.fontSize = '16px';
-    notifDiv.style.color = type === 'success' ? '#155724' : '#a94442';
+    notifDiv.className = 'notif-div'; // Tambahkan kelas untuk styling
+
     notifDiv.textContent = message;
-    notifDiv.style.textAlign = 'center'; // Pusatkan teks
 
     document.body.appendChild(notifDiv);
 

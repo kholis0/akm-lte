@@ -4,12 +4,6 @@ if (!defined("INDEX")) die("");
 // Direktori tempat menyimpan file upload
 $target_dir = "uploads/";
 
-// Debugging: Tampilkan isi $_FILES dan $_POST
-echo "<pre>";
-var_dump($_FILES);
-var_dump($_POST);
-echo "</pre>";
-
 // Ambil data dari form
 $nama = htmlspecialchars($_POST['nama'] ?? '');
 $alamat = htmlspecialchars($_POST['alamat'] ?? '');
@@ -40,13 +34,13 @@ if (isset($_FILES["logo"]) && $_FILES["logo"]["error"] == 0) {
 
     // Validasi file (hanya contoh, perlu ditingkatkan)
     if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        echo "<script>showNotif('Sorry, only JPG, JPEG, PNG & GIF files are allowed.', 'error');</script>";
         $uploadOk = 0;
     }
 
     // Cek ukuran file
     if ($_FILES["logo"]["size"] > 500000) {
-        echo "Sorry, your file is too large.";
+        echo "<script>showNotif('Sorry, your file is too large.', 'error');</script>";
         $uploadOk = 0;
     }
 
@@ -54,7 +48,7 @@ if (isset($_FILES["logo"]) && $_FILES["logo"]["error"] == 0) {
         if (move_uploaded_file($_FILES["logo"]["tmp_name"], $target_file)) {
             $logo = htmlspecialchars(basename($_FILES["logo"]["name"]));
         } else {
-            echo "Sorry, there was an error uploading your file.";
+            echo "<script>showNotif('Sorry, there was an error uploading your file.', 'error');</script>";
             $logo = $logo_lama; // Gunakan logo lama jika upload gagal
         }
     } else {
@@ -80,45 +74,74 @@ $query = "UPDATE masjid SET
 $stmt = mysqli_prepare($con, $query);
 mysqli_stmt_bind_param($stmt, "ssssssssss", $nama, $alamat, $email, $no_telp, $bank, $no_rek, $ketua_takmir, $sekretaris, $bendahara, $logo);
 
+$berhasil_update = false; // Tambahkan variabel untuk menandai keberhasilan update
+
 if (mysqli_stmt_execute($stmt)) {
     // Menampilkan notifikasi sukses
     echo "<script>showNotif('Data berhasil diupdate!', 'success');</script>";
-    
-    // Redirect ke halaman masjid setelah berhasil diupdate
-    header("Location: ?hal=masjid");
-    exit;
+    $berhasil_update = true; // Set variabel menjadi true jika berhasil
 } else {
     // Menampilkan notifikasi gagal
     echo "<script>showNotif('Tidak dapat mengupdate data! Error: " . mysqli_error($con) . "', 'error');</script>";
 }
 ?>
 
+<style>
+/* Style untuk notifikasi */
+.notif-div {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 12px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    font-size: 16px;
+    color: #155724;
+    text-align: center;
+}
+
+/* Media query untuk layar kecil (misalnya, lebar kurang dari 768px) */
+@media (max-width: 768px) {
+    .notif-div {
+        top: 110px;
+        /* Sesuaikan posisi top agar tidak menutupi navbar */
+        right: 10px;
+        /* Sesuaikan posisi kanan agar tidak terlalu dekat dengan tepi layar */
+        left: 180px;
+        /* Tambahkan posisi kiri agar notifikasi memiliki lebar yang sesuai */
+        width: auto;
+        /* Biarkan lebar menyesuaikan dengan konten */
+        margin: 0 auto;
+        /* Pusatkan notifikasi horizontal */
+    }
+}
+</style>
+
 <script>
 function showNotif(message, type) {
     const notifDiv = document.createElement('div');
-    notifDiv.style.position = 'fixed';
-    notifDiv.style.top = '10px'; // Atur posisi top ke 10px dari atas
-    notifDiv.style.left = '50%'; // Pusatkan horizontal
-    notifDiv.style.transform = 'translateX(-50%)'; // Koreksi posisi tengah
-    notifDiv.style.background = type === 'success' ? '#d4edda' : '#f2dede';
-    notifDiv.style.border = type === 'success' ? '1px solid #c3e6cb' : '1px solid #a94442';
-    notifDiv.style.padding = '12px 20px';
-    notifDiv.style.borderRadius = '5px';
-    notifDiv.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
-    notifDiv.style.zIndex = '9999'; // Pastikan z-index sangat tinggi
-    notifDiv.style.fontSize = '16px';
-    notifDiv.style.color = type === 'success' ? '#155724' : '#a94442';
+    notifDiv.className = 'notif-div'; // Tambahkan kelas untuk styling
+
     notifDiv.textContent = message;
-    notifDiv.style.textAlign = 'center'; // Pusatkan teks
 
     document.body.appendChild(notifDiv);
 
     setTimeout(() => {
         notifDiv.remove();
+        <?php if($berhasil_update): ?>
         window.location.href = '?hal=masjid'; // Redirect setelah notifikasi
+        <?php endif; ?>
     }, 3000);
 }
 
-// Contoh pemanggilan fungsi notifikasi
-showNotif('Data berhasil diperbarui!', 'success');
+<?php if(!$berhasil_update): ?>
+// Jika update gagal, tampilkan notifikasi
+showNotif('Tidak dapat mengupdate data! Error: <?php echo mysqli_error($con); ?>', 'error');
+<?php else: ?>
+// Jika update berhasil, tampilkan notifikasi
+showNotif('Data berhasil diupdate!', 'success');
+<?php endif; ?>
 </script>

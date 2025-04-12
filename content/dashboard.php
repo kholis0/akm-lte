@@ -33,7 +33,7 @@
     <div class="row">
         <div class="col-lg-4 col-sm-6 col-xs-12">
             <!-- small box -->
-            <div class="small-box bg-aqua" style="padding-top: 5px; padding-bottom: 5px">
+            <div class="small-box bg-green" style="padding-top: 5px; padding-bottom: 5px">
                 <div class="inner">
                     <h3><?= rupiah($pemasukan['data'] ?? 0)?></h3>
 
@@ -48,7 +48,7 @@
         <!-- ./col -->
         <div class="col-lg-4 col-sm-6 col-xs-12">
             <!-- small box -->
-            <div class="small-box bg-green" style="padding-top: 5px; padding-bottom: 5px">
+            <div class="small-box bg-aqua" style="padding-top: 5px; padding-bottom: 5px">
                 <div class="inner">
                     <h3><?= rupiah(abs($pengeluaran['data'] ?? 0))?></h3>
 
