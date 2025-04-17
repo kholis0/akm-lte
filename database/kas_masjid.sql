@@ -33,7 +33,9 @@ CREATE TABLE IF NOT EXISTS `masjid` (
   `logo` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Data exporting was unselected.
+-- Dumping data for table kas_masjid.masjid: ~0 rows (approximately)
+INSERT INTO `masjid` (`nama`, `alamat`, `email`, `no_telp`, `bank`, `no_rek`, `ketua_takmir`, `bendahara`, `sekretaris`, `logo`) VALUES
+	('Samsul Huda', 'Jalan Mardikarya no. 7 Kota Madiun', 'masjidsamsulhuda@gmail.com', '085187965433', 'Syariah Indonesia', 87827563, 'Muhammad Yusuf', 'Yoga Hendrawan', 'Abdullah', 'logo-msh.jpg');
 
 -- Dumping structure for table kas_masjid.pengguna
 CREATE TABLE IF NOT EXISTS `pengguna` (
@@ -46,7 +48,11 @@ CREATE TABLE IF NOT EXISTS `pengguna` (
   PRIMARY KEY (`id_pengguna`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Data exporting was unselected.
+-- Dumping data for table kas_masjid.pengguna: ~3 rows (approximately)
+INSERT INTO `pengguna` (`id_pengguna`, `foto_profil`, `nama`, `username`, `password`, `role`) VALUES
+	(14, 'uploads/Kholis3.jpg', 'Kholis', 'kholis', '$2y$10$m0XwGqZziWavw/sWHVj2jO6Xm5G1/vIxrS4Q34UuYP1gfWSpRT9lS', 'owner'),
+	(16, 'uploads/person.png', 'Fulan', 'fulan', '$2y$10$ldjtGOpC3HSztCyQBG5t0.C0so8FY4HNb4pn213.MqAPehZfrtxDS', 'admin'),
+	(27, 'uploads/Kholis4.jpg', 'Amru', 'amru', '$2y$10$ACw1yAonKPw2PmYSrLLjbeE9Tao7d0ZfY2Olsmw6YiBs1vegUwqAm', 'admin');
 
 -- Dumping structure for table kas_masjid.transaksi
 CREATE TABLE IF NOT EXISTS `transaksi` (
@@ -60,7 +66,20 @@ CREATE TABLE IF NOT EXISTS `transaksi` (
   PRIMARY KEY (`id_transaksi`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Data exporting was unselected.
+-- Dumping data for table kas_masjid.transaksi: ~12 rows (approximately)
+INSERT INTO `transaksi` (`id_transaksi`, `nama`, `tanggal`, `nominal`, `kategori`, `rincian`, `timestamp`) VALUES
+	(3, 'Aisyah', '2025-03-24', -2500000, 'Pengeluaran', 'kebutuhan', '2025-03-24 14:38:12'),
+	(4, 'Zainab', '2025-03-19', -9000000, 'Pengeluaran', 'shodaqoh', '2025-03-24 14:39:19'),
+	(5, 'Amru', '2025-03-15', 4000000, 'Pemasukan', 'Perlengkapan masjid', '2025-03-27 00:24:15'),
+	(8, 'Wahyono', '2025-04-01', 5900000, 'Pemasukan', 'Infaq', '2025-03-31 19:27:31'),
+	(10, 'Wardi', '2025-04-02', 4000000, 'Pengeluaran', 'Kebutuhan lain-lain', '2025-04-02 03:30:41'),
+	(18, 'Purwanto', '2025-04-11', 2500000, 'Pengeluaran', 'Peralatan bersih-bersih', '2025-04-10 22:49:19'),
+	(20, 'Fauzan', '2025-04-11', 5000000, 'Pemasukan', 'Lain2', '2025-04-10 22:55:55'),
+	(22, 'Jagad', '2025-04-11', 4000000, 'Pemasukan', 'Test', '2025-04-10 23:01:05'),
+	(23, 'Jastro', '2025-04-11', 5000000, 'Pemasukan', 'Test', '2025-04-10 23:01:46'),
+	(29, 'Sugiman', '2025-04-12', 2000000, 'Pemasukan', 'test', '2025-04-11 23:48:48'),
+	(30, 'Amir', '2025-04-12', 2000000, 'Pemasukan', 'test', '2025-04-11 23:49:40'),
+	(31, 'Hadi', '2025-04-12', -2000000, 'Pengeluaran', 'Kajian akbar', '2025-04-11 23:54:56');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
