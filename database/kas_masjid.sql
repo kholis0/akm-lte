@@ -16,8 +16,8 @@
 
 
 -- Dumping database structure for kas_masjid
-CREATE DATABASE IF NOT EXISTS `kas_masjid` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-USE `kas_masjid`;
+-- CREATE DATABASE IF NOT EXISTS `kas_masjid` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `tnch433_kas_masjid`;
 
 -- Dumping structure for table kas_masjid.masjid
 CREATE TABLE IF NOT EXISTS `masjid` (
