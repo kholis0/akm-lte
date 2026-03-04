@@ -1,7 +1,7 @@
 <header class="main-header">
     <!-- Logo -->
     <a href="index2.html" class="logo">
-        <span class="logo-lg"><b>Kas</b> Masjid</span>
+        <span class="logo-lg"><b>AKM</b></span>
     </a>
 
     <!-- Header Navbar -->
@@ -59,7 +59,7 @@
                             <p style="
                                 font-size: 14px; 
                                 color: #777;">
-                                <?= ucfirst($_SESSION['role']) ?> - KMSH
+                                <?= ucfirst($_SESSION['role']) ?> - AKM
                             </p>
                         </li>
 
